@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -6,33 +6,33 @@
 
 @layer base {
   :root {
-    --background: 220 14% 96%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 35 20% 98%;
+    --foreground: 25 15% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 25 15% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 25 15% 15%;
 
-    --primary: 210 100% 56%;
+    --primary: 160 25% 50%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 35 50% 96%;
+    --secondary-foreground: 25 25% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 35 30% 94%;
+    --muted-foreground: 25 8% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 35 30% 92%;
+    --accent-foreground: 25 25% 25%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 35 15% 88%;
+    --input: 35 15% 88%;
+    --ring: 160 25% 50%;
 
     --radius: 0.5rem;
 
@@ -103,12 +103,21 @@
   }
 
   .love-coach-gradient {
-    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #7cb342 0%, #66bb6a 50%, #81c784 100%);
   }
 
   .relationship-card {
-    background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
-    border: 1px solid #e2e8f0;
+    background: linear-gradient(145deg, #fefefe 0%, #f5f5f0 100%);
+    border: 1px solid #e8e5d6;
+  }
+
+  .bg-grid-pattern {
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      rgba(124, 179, 66, 0.1) 1px,
+      transparent 0
+    );
+    background-size: 20px 20px;
   }
 
   .hover-scale {
