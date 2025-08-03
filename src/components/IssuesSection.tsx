@@ -16,22 +16,26 @@ const IssuesSection = () => {
     <section className="py-16 px-4">
       <div className="container max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <Badge variant="secondary" className="mb-4">Области работы</Badge>
-          <h3 className="text-3xl font-bold font-heading mb-6">С какими запросами мы работаем</h3>
-          <p className="text-lg text-muted-foreground">
-            Помогаем парам и отдельным людям в различных ситуациях
+          <Badge variant="secondary" className="mb-4 bg-gradient-to-r from-primary/10 to-blue-600/10 border-primary/20">
+            🔥 Области работы
+          </Badge>
+          <h3 className="text-3xl md:text-4xl font-bold font-heading mb-6 bg-gradient-to-r from-gray-900 to-primary bg-clip-text text-transparent">
+            С какими запросами мы работаем
+          </h3>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            Помогаем парам и отдельным людям в сложных жизненных ситуациях
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {issues.map((issue, index) => (
-            <Card key={index} className="relationship-card hover-scale fade-in" style={{animationDelay: `${index * 0.1}s`}}>
-              <CardHeader className="pb-4">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-3">
-                  <Icon name={issue.icon} size={20} className="text-primary" />
+            <Card key={index} className="group hover:shadow-xl transition-all duration-300 hover:scale-105 border-0 bg-gradient-to-br from-white to-gray-50/50 backdrop-blur-sm">
+              <CardHeader className="p-6">
+                <div className="w-14 h-14 bg-gradient-to-r from-primary/20 to-blue-600/20 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Icon name={issue.icon} size={24} className="text-primary" />
                 </div>
-                <CardTitle className="text-lg">{issue.title}</CardTitle>
-                <CardDescription>{issue.description}</CardDescription>
+                <CardTitle className="text-xl mb-3 group-hover:text-primary transition-colors">{issue.title}</CardTitle>
+                <CardDescription className="text-muted-foreground leading-relaxed">{issue.description}</CardDescription>
               </CardHeader>
             </Card>
           ))}
