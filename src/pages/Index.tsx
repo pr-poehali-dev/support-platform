@@ -1,12 +1,22 @@
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import Icon from '@/components/ui/icon';
 
 const Index = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const services = [
     {
       id: 1,
@@ -83,6 +93,29 @@ const Index = () => {
   const handlePayment = (serviceId: number, price: string) => {
     // Здесь будет интеграция с ЮKassa
     console.log(`Оплата услуги ${serviceId} на сумму ${price}`);
+    // Перенаправление на страницу благодарности
+    window.location.href = '/thankyou';
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      // Имитация отправки формы
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log('Форма отправлена:', formData);
+      setSubmitted(true);
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      console.error('Ошибка отправки:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -110,26 +143,68 @@ const Index = () => {
             </a>
           </nav>
 
-          <Button variant="outline" className="md:hidden">
-            <Icon name="Menu" size={20} />
-          </Button>
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="outline" className="md:hidden">
+                <Icon name="Menu" size={20} />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-72">
+              <SheetHeader>
+                <SheetTitle className="flex items-center space-x-2">
+                  <Icon name="Heart" size={20} className="text-primary" />
+                  <span>LoveCoach.Pro</span>
+                </SheetTitle>
+              </SheetHeader>
+              <nav className="flex flex-col space-y-4 mt-8">
+                <a 
+                  href="#about" 
+                  className="text-sm font-medium hover:text-primary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  О нас
+                </a>
+                <a 
+                  href="#services" 
+                  className="text-sm font-medium hover:text-primary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Услуги
+                </a>
+                <a 
+                  href="#faq" 
+                  className="text-sm font-medium hover:text-primary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Вопросы
+                </a>
+                <a 
+                  href="#contact" 
+                  className="text-sm font-medium hover:text-primary transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Контакты
+                </a>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </header>
 
       {/* Hero блок */}
-      <section className="py-20 px-4">
+      <section className="py-12 md:py-20 px-4">
         <div className="container max-w-4xl mx-auto text-center fade-in">
-          <div className="love-coach-gradient text-white rounded-2xl p-12 mb-16">
-            <h2 className="text-4xl md:text-6xl font-bold font-heading mb-6">
+          <div className="love-coach-gradient text-white rounded-2xl p-6 md:p-12 mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold font-heading mb-4 md:mb-6">
               Коучинг для пар и индивидуальных отношений
             </h2>
-            <p className="text-xl md:text-2xl mb-8 opacity-90">
+            <p className="text-lg md:text-xl lg:text-2xl mb-6 md:mb-8 opacity-90">
               Пойми друг друга. Услышь. Почувствуй.
             </p>
             <Button 
               size="lg" 
               variant="secondary" 
-              className="hover-scale text-lg px-8 py-3"
+              className="hover-scale text-base md:text-lg px-6 md:px-8 py-2 md:py-3 w-full sm:w-auto"
               onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
             >
               <Icon name="Calendar" size={20} className="mr-2" />
@@ -360,14 +435,56 @@ const Index = () => {
               </CardHeader>
               
               <CardContent className="space-y-4">
-                <Input placeholder="Ваше имя" />
-                <Input type="email" placeholder="Email" />
-                <Textarea placeholder="Опишите вашу ситуацию" rows={4} />
-                
-                <Button className="w-full">
-                  <Icon name="Send" size={20} className="mr-2" />
-                  Отправить заявку
-                </Button>
+                {submitted ? (
+                  <div className="text-center py-8">
+                    <Icon name="CheckCircle" size={48} className="text-green-500 mx-auto mb-4" />
+                    <h4 className="text-lg font-semibold mb-2">Спасибо за обращение!</h4>
+                    <p className="text-muted-foreground">Мы свяжемся с вами в течение 24 часов</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleFormSubmit}>
+                    <div className="space-y-4">
+                      <Input 
+                        placeholder="Ваше имя" 
+                        value={formData.name}
+                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        required
+                      />
+                      <Input 
+                        type="email" 
+                        placeholder="Email" 
+                        value={formData.email}
+                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        required
+                      />
+                      <Textarea 
+                        placeholder="Опишите вашу ситуацию" 
+                        rows={4}
+                        value={formData.message}
+                        onChange={(e) => handleInputChange('message', e.target.value)}
+                        required
+                      />
+                      
+                      <Button 
+                        type="submit" 
+                        className="w-full" 
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Icon name="Loader2" size={20} className="mr-2 animate-spin" />
+                            Отправляем...
+                          </>
+                        ) : (
+                          <>
+                            <Icon name="Send" size={20} className="mr-2" />
+                            Отправить заявку
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </form>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -397,6 +514,9 @@ const Index = () => {
                 </a>
                 <a href="/privacy" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
                   Политика конфиденциальности
+                </a>
+                <a href="/thankyou" className="block text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Спасибо за оплату
                 </a>
               </div>
             </div>
