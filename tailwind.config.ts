@@ -103,7 +103,8 @@ export default {
 				'hover-scale': 'scale 0.2s ease-out'
 			},
 			fontFamily: {
-				'sans': ['Open Sans', 'system-ui', 'sans-serif']
+				'sans': ['Inter', 'system-ui', 'sans-serif'],
+				'heading': ['Raleway', 'Inter', 'system-ui', 'sans-serif']
 			}
 		}
 	},

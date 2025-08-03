@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -15,7 +15,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 217 91% 60%;
+    --primary: 210 100% 56%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 210 40% 96.1%;
@@ -99,11 +99,16 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
   }
 
-  .consultation-gradient {
-    background: linear-gradient(135deg, #2563eb 0%, #64748b 100%);
+  .love-coach-gradient {
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #8b5cf6 100%);
+  }
+
+  .relationship-card {
+    background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+    border: 1px solid #e2e8f0;
   }
 
   .hover-scale {
