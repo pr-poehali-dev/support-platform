@@ -1,100 +1,132 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import Icon from '@/components/ui/icon';
 
 const Header = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMobileMenuOpen(false);
+    }
+  };
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
-      <div className="container flex h-16 items-center justify-between max-w-7xl mx-auto px-4 lg:px-6">
-        <div className="flex items-center space-x-2 hover:scale-105 transition-transform duration-200">
-          <Icon name="Heart" size={24} className="text-primary" />
-          <h1 className="text-xl font-bold font-heading bg-gradient-to-r from-primary to-emerald-600 bg-clip-text text-transparent">LoveCoach.Pro</h1>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled ? 'bg-white/90 backdrop-blur-lg shadow-sm' : 'bg-transparent'
+    }`}>
+      <div className="container mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          
+          {/* Logo */}
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl flex items-center justify-center">
+              <Icon name="Heart" size={24} className="text-white" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold text-gray-900">RelationCoach</span>
+              <span className="text-xs text-gray-500 -mt-1">Коучинг отношений</span>
+            </div>
+          </div>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-8">
+            <button 
+              onClick={() => scrollToSection('about')}
+              className="text-gray-700 hover:text-rose-600 transition-colors font-medium"
+            >
+              О методе
+            </button>
+            <button 
+              onClick={() => scrollToSection('services')}
+              className="text-gray-700 hover:text-rose-600 transition-colors font-medium"
+            >
+              Услуги
+            </button>
+            <button 
+              onClick={() => scrollToSection('approach')}
+              className="text-gray-700 hover:text-rose-600 transition-colors font-medium"
+            >
+              Подход
+            </button>
+            <button 
+              onClick={() => scrollToSection('contact')}
+              className="text-gray-700 hover:text-rose-600 transition-colors font-medium"
+            >
+              Контакты
+            </button>
+          </nav>
+
+          {/* CTA Button */}
+          <div className="hidden lg:block">
+            <Button 
+              onClick={() => scrollToSection('contact')}
+              className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-6 py-2"
+            >
+              <Icon name="Calendar" size={16} className="mr-2" />
+              Записаться
+            </Button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <Icon name={isMobileMenuOpen ? "X" : "Menu"} size={24} className="text-gray-700" />
+          </button>
         </div>
-        
-        <nav className="hidden md:flex items-center space-x-8">
-          <a href="#about" className="text-sm font-medium hover:text-primary transition-all duration-200 hover:scale-105 relative group">
-            О нас
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-emerald-600 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-          <a href="#services" className="text-sm font-medium hover:text-primary transition-all duration-200 hover:scale-105 relative group">
-            Услуги
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-emerald-600 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-          <a href="#testimonials" className="text-sm font-medium hover:text-primary transition-all duration-200 hover:scale-105 relative group">
-            Отзывы
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-emerald-600 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-          <a href="#faq" className="text-sm font-medium hover:text-primary transition-all duration-200 hover:scale-105 relative group">
-            FAQ
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-emerald-600 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-          <a href="#contact" className="text-sm font-medium hover:text-primary transition-all duration-200 hover:scale-105 relative group">
-            Контакты
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-emerald-600 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-        </nav>
 
-        <div className="flex items-center space-x-4">
-          <Button size="sm" asChild className="bg-gradient-to-r from-primary to-emerald-500 hover:from-primary/90 hover:to-emerald-500/90 border-0 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
-            <a href="#contact">Записаться</a>
-          </Button>
-
-          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-            <SheetTrigger asChild>
-              <Button variant="outline" className="md:hidden hover:scale-105 transition-transform">
-                <Icon name="Menu" size={20} />
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden bg-white/95 backdrop-blur-lg border-t border-gray-200">
+            <div className="px-6 py-6 space-y-4">
+              <button 
+                onClick={() => scrollToSection('about')}
+                className="block w-full text-left text-gray-700 hover:text-rose-600 transition-colors font-medium py-2"
+              >
+                О методе
+              </button>
+              <button 
+                onClick={() => scrollToSection('services')}
+                className="block w-full text-left text-gray-700 hover:text-rose-600 transition-colors font-medium py-2"
+              >
+                Услуги
+              </button>
+              <button 
+                onClick={() => scrollToSection('approach')}
+                className="block w-full text-left text-gray-700 hover:text-rose-600 transition-colors font-medium py-2"
+              >
+                Подход
+              </button>
+              <button 
+                onClick={() => scrollToSection('contact')}
+                className="block w-full text-left text-gray-700 hover:text-rose-600 transition-colors font-medium py-2"
+              >
+                Контакты
+              </button>
+              <Button 
+                onClick={() => scrollToSection('contact')}
+                className="w-full bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white mt-4"
+              >
+                <Icon name="Calendar" size={16} className="mr-2" />
+                Записаться
               </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-72">
-              <SheetHeader>
-                <SheetTitle className="flex items-center space-x-2">
-                  <Icon name="Heart" size={20} className="text-primary" />
-                  <span className="bg-gradient-to-r from-primary to-emerald-600 bg-clip-text text-transparent">LoveCoach.Pro</span>
-                </SheetTitle>
-              </SheetHeader>
-              <nav className="flex flex-col space-y-4 mt-8">
-                <a 
-                  href="#about" 
-                  className="text-sm font-medium hover:text-primary transition-colors py-2 hover:translate-x-2 duration-200"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  О нас
-                </a>
-                <a 
-                  href="#services" 
-                  className="text-sm font-medium hover:text-primary transition-colors py-2 hover:translate-x-2 duration-200"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Услуги
-                </a>
-                <a 
-                  href="#testimonials" 
-                  className="text-sm font-medium hover:text-primary transition-colors py-2 hover:translate-x-2 duration-200"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Отзывы
-                </a>
-                <a 
-                  href="#faq" 
-                  className="text-sm font-medium hover:text-primary transition-colors py-2 hover:translate-x-2 duration-200"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  FAQ
-                </a>
-                <a 
-                  href="#contact" 
-                  className="text-sm font-medium hover:text-primary transition-colors py-2 hover:translate-x-2 duration-200"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Контакты
-                </a>
-              </nav>
-            </SheetContent>
-          </Sheet>
-        </div>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
