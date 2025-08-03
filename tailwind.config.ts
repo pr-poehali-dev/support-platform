@@ -85,22 +85,67 @@ export default {
 						height: '0'
 					}
 				},
-				'fade-in': {
+				'float': {
+					'0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
+					'25%': { transform: 'translate(10px, -10px) rotate(1deg)' },
+					'50%': { transform: 'translate(-5px, -20px) rotate(-1deg)' },
+					'75%': { transform: 'translate(-10px, -5px) rotate(0.5deg)' }
+				},
+				'bounce-in': {
 					'0%': { 
 						opacity: '0', 
-						transform: 'translateY(20px)' 
+						transform: 'scale(0.3) translateY(50px)' 
+					},
+					'50%': { 
+						opacity: '1', 
+						transform: 'scale(1.05) translateY(-10px)' 
+					},
+					'70%': { 
+						transform: 'scale(0.95) translateY(0)' 
+					},
+					'100%': { 
+						opacity: '1', 
+						transform: 'scale(1) translateY(0)' 
+					}
+				},
+				'fade-in-up': {
+					'0%': { 
+						opacity: '0', 
+						transform: 'translateY(40px)' 
 					},
 					'100%': { 
 						opacity: '1', 
 						transform: 'translateY(0)' 
 					}
+				},
+				'scale-in': {
+					'0%': { 
+						opacity: '0', 
+						transform: 'scale(0.8)' 
+					},
+					'100%': { 
+						opacity: '1', 
+						transform: 'scale(1)' 
+					}
+				},
+				'shimmer': {
+					'0%': { backgroundPosition: '-200% 0' },
+					'100%': { backgroundPosition: '200% 0' }
+				},
+				'pulse-soft': {
+					'0%, 100%': { boxShadow: '0 0 0 0 rgba(124, 179, 66, 0.4)' },
+					'50%': { boxShadow: '0 0 0 20px rgba(124, 179, 66, 0)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'fade-in': 'fade-in 0.6s ease-out',
-				'hover-scale': 'scale 0.2s ease-out'
+				'float': 'float 20s ease-in-out infinite',
+				'bounce-in': 'bounce-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+				'fade-in-up': 'fade-in-up 0.8s ease-out',
+				'scale-in': 'scale-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+				'shimmer': 'shimmer 3s ease-in-out infinite',
+				'pulse-soft': 'pulse-soft 2s infinite'
 			},
 			fontFamily: {
 				'sans': ['Inter', 'system-ui', 'sans-serif'],
